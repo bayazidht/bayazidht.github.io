@@ -5,143 +5,162 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Syed Bayazid Hossain | Portfolio</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <style>
-        html { scroll-behavior: smooth; }
-        .bg-gradient { background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .bg-gradient-dark { background: radial-gradient(circle at top right, #1e3a8a, #0f172a, #020617); }
+        
+        /* Navigation Drawer Style */
+        .drawer { 
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+            transform: translateX(100%); 
+        }
+        .drawer.active { transform: translateX(0); }
+        .drawer-overlay { 
+            opacity: 0; pointer-events: none; transition: 0.4s; 
+            backdrop-filter: blur(8px); background: rgba(0,0,0,0.4);
+        }
+        .drawer-overlay.active { opacity: 1; pointer-events: auto; }
+
+        .skill-card:hover { transform: translateY(-5px); border-color: #3b82f6; color: #3b82f6; }
+        .swiper-pagination-bullet { background: #3b82f6 !important; }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body class="bg-[#020617] text-gray-100">
 
-    <nav class="fixed top-0 w-full bg-white/90 backdrop-blur-md shadow-sm z-50">
+    <nav class="fixed top-0 w-full z-50 glass border-b border-white/10">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <h1 class="text-xl font-bold text-blue-700 tracking-tight">BAYAZID.HT</h1>
-            <ul class="hidden md:flex space-x-8 font-medium text-sm uppercase">
-                <li><a href="#home" class="hover:text-blue-600 transition">Home</a></li>
-                <li><a href="#skills" class="hover:text-blue-600 transition">Skills</a></li>
-                <li><a href="#experience" class="hover:text-blue-600 transition">Experience</a></li>
-                <li><a href="#projects" class="hover:text-blue-600 transition">Projects</a></li>
-                <li><a href="#contact" class="hover:text-blue-600 transition">Contact</a></li>
+            <a href="#" class="text-2xl font-extrabold tracking-tighter text-blue-500">BAYAZID</a>
+            <ul class="hidden md:flex space-x-8 text-xs font-bold uppercase tracking-widest text-gray-400">
+                <li><a href="#home" class="hover:text-blue-500 transition">Home</a></li>
+                <li><a href="#about" class="hover:text-blue-500 transition">About</a></li>
+                <li><a href="#skills" class="hover:text-blue-500 transition">Skills</a></li>
+                <li><a href="#experience" class="hover:text-blue-500 transition">Experience</a></li>
+                <li><a href="#projects" class="hover:text-blue-500 transition">Projects</a></li>
+                <li><a href="#reviews" class="hover:text-blue-500 transition">Reviews</a></li>
+                <li><a href="#contact" class="hover:text-blue-500 transition">Contact</a></li>
             </ul>
+            <button id="open-drawer" class="md:hidden text-2xl text-blue-500"><i class="fas fa-bars-staggered"></i></button>
         </div>
     </nav>
 
-    <section id="home" class="h-screen flex items-center justify-center bg-gradient text-white">
-        <div class="text-center px-4">
-            <h2 class="text-5xl md:text-7xl font-extrabold mb-4">SYED BAYAZID HOSSAIN [cite: 1]</h2>
-            <p class="text-xl md:text-2xl font-light mb-8 opacity-90">Mobile App Developer (Android & Flutter) </p>
-            <div class="flex justify-center space-x-4">
-                <a href="#projects" class="bg-white text-blue-700 px-8 py-3 rounded-full font-bold hover:bg-gray-100 transition">View My Work</a>
-                <a href="#contact" class="border-2 border-white px-8 py-3 rounded-full font-bold hover:bg-white hover:text-blue-700 transition">Contact Me</a>
+    <div id="drawer-overlay" class="fixed inset-0 z-[60] drawer-overlay"></div>
+    <div id="drawer" class="fixed top-0 right-0 h-full w-72 z-[70] drawer glass border-l border-white/10 p-8 flex flex-col">
+        <div class="flex justify-between items-center mb-12">
+            <span class="text-blue-500 font-bold">MENU</span>
+            <button id="close-drawer" class="text-3xl text-red-500">&times;</button>
+        </div>
+        <ul class="space-y-6 text-xl font-semibold">
+            <li><a href="#home" class="drawer-link block hover:text-blue-500 transition">Home</a></li>
+            <li><a href="#about" class="drawer-link block hover:text-blue-500 transition">About</a></li>
+            <li><a href="#skills" class="drawer-link block hover:text-blue-500 transition">Skills</a></li>
+            <li><a href="#experience" class="drawer-link block hover:text-blue-500 transition">Experience</a></li>
+            <li><a href="#projects" class="drawer-link block hover:text-blue-500 transition">Projects</a></li>
+            <li><a href="#reviews" class="drawer-link block hover:text-blue-500 transition">Reviews</a></li>
+            <li><a href="#contact" class="drawer-link block hover:text-blue-500 transition">Contact</a></li>
+        </ul>
+        <div class="mt-auto pt-10 border-t border-white/10 flex justify-between text-xl text-gray-400">
+            <a href="mailto:bayazidht@gmail.com"><i class="fas fa-envelope"></i></a>
+            <a href="https://github.com/bayazidht"><i class="fab fa-github"></i></a>
+            <a href="https://linkedin.com/in/bayazidht"><i class="fab fa-linkedin"></i></a>
+            <a href="https://fiverr.com/bayazidht"><i class="fas fa-briefcase"></i></a>
+            <a href="https://play.google.com/store/apps/dev?id=5178474569020388732"><i class="fab fa-google-play"></i></a>
+        </div>
+    </div>
+
+    <section id="home" class="min-h-screen flex items-center justify-center bg-gradient-dark pt-20 px-6 text-center">
+        <div class="max-w-4xl">
+            <h1 class="text-5xl md:text-8xl font-extrabold mb-6 tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-white to-gray-500 uppercase">
+                SYED BAYAZID HOSSAIN
+            </h1>
+            <p class="text-lg md:text-2xl text-blue-400 font-medium mb-10 uppercase tracking-[0.3em]">
+                Mobile App Developer (Android & Flutter)
+            </p>
+            <div class="flex flex-wrap justify-center gap-4 mb-12">
+                <a href="#projects" class="bg-blue-600 hover:bg-blue-700 text-white px-10 py-4 rounded-full font-bold transition transform hover:scale-105">View My Work</a>
+                <a href="#contact" class="glass text-white px-10 py-4 rounded-full font-bold transition hover:bg-white/10">Contact Me</a>
+            </div>
+            <div class="flex justify-center mb-6">
+                <a href="https://fiverr.com/bayazidht" class="inline-flex items-center gap-3 bg-white/5 border border-white/10 px-4 py-2 rounded-full hover:bg-white/10 transition-all group">
+                    <span class="relative flex h-3 w-3">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                    </span>
+                    <span class="text-xs font-bold uppercase tracking-[0.2em] text-gray-300">
+                        Available Now on <span class="text-[#1dbf73] group-hover:underline">Fiverr</span>
+                    </span>
+                </a>
+            </div>
+            <div class="flex justify-center gap-8 text-3xl">
+                <a href="mailto:bayazidht@gmail.com" title="Email" class="hover:text-red-500 transition-all"><i class="fas fa-envelope"></i></a>
+                <a href="https://github.com/bayazidht" title="GitHub" class="hover:text-blue-500 transition-all"><i class="fab fa-github"></i></a>
+                <a href="https://linkedin.com/in/bayazidht" title="LinkedIn" class="hover:text-blue-400 transition-all"><i class="fab fa-linkedin"></i></a>
+                <a href="https://fiverr.com/bayazidht" title="Fiverr" class="hover:text-green-400 transition-all"><i class="fas fa-briefcase"></i></a>
+                <a href="https://play.google.com/store/apps/dev?id=5178474569020388732" title="Play Store" class="hover:text-green-600 transition-all"><i class="fab fa-google-play"></i></a>
             </div>
         </div>
     </section>
 
-    <section id="skills" class="py-20 container mx-auto px-6">
-        <h2 class="text-3xl font-bold text-center mb-12">Technical Skills [cite: 5, 6]</h2>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div class="p-6 bg-white shadow-sm border border-gray-100 rounded-xl text-center">
-                <i class="fas fa-mobile-alt text-3xl text-blue-600 mb-3"></i>
-                <p class="font-bold">Flutter & Dart</p>
+    <section id="about" class="py-24 px-6 container mx-auto">
+        <div class="flex flex-col md:flex-row items-center gap-16">
+            <div class="relative group shrink-0">
+                <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+                <div class="relative w-72 h-72 bg-slate-900 rounded-2xl overflow-hidden">
+                    <img src="https://avatars.githubusercontent.com/u/44992194?v=4" alt="Bayazid" class="object-cover w-full h-full grayscale hover:grayscale-0 transition duration-500">
+                </div>
             </div>
-            <div class="p-6 bg-white shadow-sm border border-gray-100 rounded-xl text-center">
-                <i class="fab fa-android text-3xl text-green-600 mb-3"></i>
-                <p class="font-bold">Native Android (Kotlin/Java)</p>
-            </div>
-            <div class="p-6 bg-white shadow-sm border border-gray-100 rounded-xl text-center">
-                <i class="fas fa-fire text-3xl text-orange-500 mb-3"></i>
-                <p class="font-bold">Firebase & MySQL</p>
-            </div>
-            <div class="p-6 bg-white shadow-sm border border-gray-100 rounded-xl text-center">
-                <i class="fas fa-code-branch text-3xl text-gray-700 mb-3"></i>
-                <p class="font-bold">MVVM Architecture</p>
+            <div class="max-w-2xl text-left">
+                <h2 class="text-4xl font-bold mb-6 text-blue-500">About Me</h2>
+                <p class="text-gray-400 text-lg leading-relaxed mb-6">
+                    A dedicated Mobile App Developer with 4+ years of professional experience in Native Android and Flutter development. 
+                    Currently pursuing an MSc in Software Convergence at Dongshin University, South Korea.
+                </p>
+                <p class="text-gray-400 text-lg leading-relaxed">
+                    I focus on MVVM Architecture and Systematic Software Design to build scalable applications. 
+                    Having delivered over 1000 orders on Fiverr, I bring a production-ready mindset to every project.
+                </p>
             </div>
         </div>
     </section>
 
-    <section id="experience" class="py-20 bg-gray-100">
-        <div class="container mx-auto px-6">
-            <h2 class="text-3xl font-bold text-center mb-12">Professional Experience</h2>
-            <div class="max-w-4xl mx-auto space-y-8">
-                <div class="bg-white p-8 rounded-2xl shadow-sm border-l-8 border-green-500">
-                    <div class="flex justify-between items-start mb-4">
-                        <div>
-                            <h3 class="text-2xl font-bold">Mobile App Developer</h3>
-                            <p class="text-green-600 font-medium">Fiverr | Freelance [cite: 8]</p>
+    <section id="skills" class="py-24 bg-slate-950/50 px-6">
+        <div class="container mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-16">Technical Skills</h2>
+            <div class="grid md:grid-cols-2 gap-16">
+                <div>
+                    <h3 class="text-xl font-semibold mb-8 border-l-4 border-blue-500 pl-4 uppercase tracking-widest">Programming</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="glass p-4 rounded-xl skill-card flex items-center gap-3 transition border border-white/5">
+                            <i class="fab fa-flutter text-cyan-400"></i> Flutter & Dart
                         </div>
-                        <span class="text-sm font-semibold bg-gray-100 px-3 py-1 rounded">2020 - Current [cite: 9]</span>
-                    </div>
-                    <ul class="list-disc list-inside text-gray-600 space-y-2">
-                        <li>Delivered 1000+ orders including full apps and maintenance[cite: 10].</li>
-                        <li>Built custom e-commerce, POS, and business automation apps[cite: 12].</li>
-                        <li>Achieved 700+ five-star reviews[cite: 11].</li>
-                    </ul>
-                </div>
-                <div class="bg-white p-8 rounded-2xl shadow-sm border-l-8 border-blue-600">
-                    <div class="flex justify-between items-start mb-4">
-                        <div>
-                            <h3 class="text-2xl font-bold">App Developer</h3>
-                            <p class="text-blue-600 font-medium">KBR IT | Dhaka, Bangladesh [cite: 15]</p>
+                        <div class="glass p-4 rounded-xl skill-card flex items-center gap-3 transition border border-white/5">
+                            <i class="fab fa-android text-green-500"></i> Kotlin & Android
                         </div>
-                        <span class="text-sm font-semibold bg-gray-100 px-3 py-1 rounded">2023 - 2025 [cite: 16]</span>
-                    </div>
-                    <ul class="list-disc list-inside text-gray-600 space-y-2">
-                        <li>Developed cross-platform mobile apps with scalable architecture[cite: 17].</li>
-                        <li>Integrated REST APIs and optimized app performance[cite: 18].</li>
-                        <li>Collaborated with designers and backend teams[cite: 19].</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="education" class="py-20 container mx-auto px-6">
-        <h2 class="text-3xl font-bold text-center mb-12">Education</h2>
-        <div class="grid md:grid-cols-2 gap-8">
-            <div class="p-6 border rounded-xl">
-                <h4 class="font-bold text-lg">MSc in Software Convergence [cite: 38]</h4>
-                <p>Dongshin University, South Korea [cite: 37]</p>
-                <p class="text-sm text-gray-500 italic">2025 - Present [cite: 45]</p>
-            </div>
-            <div class="p-6 border rounded-xl">
-                <h4 class="font-bold text-lg">BSc in Computer Science & Engineering [cite: 40]</h4>
-                <p>World University of Bangladesh [cite: 39]</p>
-                <p class="text-sm text-gray-500 italic">2018 - 2021 [cite: 46]</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="projects" class="py-20 bg-gray-50">
-        <div class="container mx-auto px-6">
-            <h2 class="text-3xl font-bold text-center mb-12">Featured Projects</h2>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
-                    <div class="p-6">
-                        <h3 class="font-bold text-xl mb-2">Dongshin Buddy [cite: 22]</h3>
-                        <p class="text-gray-600 text-sm mb-4">AI Campus Guide for Dongshin University using Gemini & Groq[cite: 22].</p>
-                        <div class="flex space-x-2">
-                            <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">Kotlin</span>
-                            <span class="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded">AI</span>
+                        <div class="glass p-4 rounded-xl skill-card flex items-center gap-3 transition border border-white/5">
+                            <i class="fab fa-java text-orange-600"></i> Java
+                        </div>
+                        <div class="glass p-4 rounded-xl skill-card flex items-center gap-3 transition border border-white/5">
+                            <i class="fas fa-layer-group text-blue-400"></i> MVVM
                         </div>
                     </div>
                 </div>
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
-                    <div class="p-6">
-                        <h3 class="font-bold text-xl mb-2">Spend Mate [cite: 23]</h3>
-                        <p class="text-gray-600 text-sm mb-4">Personal Finance Tracker with Firebase Authentication & Firestore[cite: 23].</p>
-                        <div class="flex space-x-2">
-                            <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">Flutter</span>
-                            <span class="text-xs bg-yellow-100 text-yellow-700 px-2 py-1 rounded">Firebase</span>
+                <div>
+                    <h3 class="text-xl font-semibold mb-8 border-l-4 border-blue-500 pl-4 uppercase tracking-widest">Tools & Tech</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="glass p-4 rounded-xl skill-card flex items-center gap-3 transition border border-white/5">
+                            <i class="fas fa-fire text-orange-500"></i> Firebase
                         </div>
-                    </div>
-                </div>
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
-                    <div class="p-6">
-                        <h3 class="font-bold text-xl mb-2">Sobkisubazar [cite: 34]</h3>
-                        <p class="text-gray-600 text-sm mb-4">Full-featured E-commerce app with custom REST APIs[cite: 34].</p>
-                        <div class="flex space-x-2">
-                            <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">Flutter</span>
-                            <span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">REST API</span>
+                        <div class="glass p-4 rounded-xl skill-card flex items-center gap-3 transition border border-white/5">
+                            <i class="fas fa-database text-blue-500"></i> MySQL
+                        </div>
+                        <div class="glass p-4 rounded-xl skill-card flex items-center gap-3 transition border border-white/5">
+                            <i class="fas fa-code text-blue-400"></i> Android Studio
+                        </div>
+                        <div class="glass p-4 rounded-xl skill-card flex items-center gap-3 transition border border-white/5">
+                            <i class="fas fa-network-wired text-purple-400"></i> REST APIs
                         </div>
                     </div>
                 </div>
@@ -149,48 +168,294 @@
         </div>
     </section>
 
-    <section id="reviews" class="py-20 bg-blue-700 text-white">
-        <div class="container mx-auto px-6 text-center">
-            <h2 class="text-3xl font-bold mb-8">Client Success</h2>
-            <div class="max-w-2xl mx-auto italic">
-                <i class="fas fa-quote-left text-4xl mb-4 opacity-50"></i>
-                <p class="text-2xl font-light mb-6">"Achieved 700+ five-star reviews on Fiverr, maintaining consistent quality and client satisfaction over 1000+ orders[cite: 11, 10]."</p>
-                <div class="flex justify-center items-center space-x-2 text-yellow-400">
-                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+    <section id="experience" class="py-24 px-6 container mx-auto">
+        <h2 class="text-4xl font-bold text-center mb-16">Professional Journey</h2>
+        <div class="max-w-4xl mx-auto space-y-12">
+            <div class="relative pl-10 border-l-2 border-blue-600/30">
+                <div class="absolute -left-2 top-0 w-4 h-4 rounded-full bg-blue-600"></div>
+                <h3 class="text-2xl font-bold text-white uppercase">Mobile App Developer</h3>
+                <p class="text-blue-500 font-semibold mb-4 text-sm uppercase">FIVERR | Sept 2020 - Current</p>
+                <p class="text-gray-400">Delivered 1000+ orders over 4+ years, achieving 700+ five-star reviews. Developed custom e-commerce and POS systems.</p>
+            </div>
+            <div class="relative pl-10 border-l-2 border-blue-600/30">
+                <div class="absolute -left-2 top-0 w-4 h-4 rounded-full bg-blue-600"></div>
+                <h3 class="text-2xl font-bold text-white uppercase">App Developer</h3>
+                <p class="text-blue-500 font-semibold mb-4 text-sm uppercase">KBR IT | Feb 2023 - Aug 2025</p>
+                <p class="text-gray-400">Developed cross-platform apps, optimized performance, and integrated REST APIs in a team environment.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="education" class="py-24 bg-slate-950/50 px-6 container mx-auto text-center">
+        <h2 class="text-4xl font-bold mb-16 text-center">Academic Foundation</h2>
+        <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <div class="glass p-10 rounded-3xl text-left border border-white/5">
+                <span class="text-blue-500 text-xs font-bold uppercase">2025 - 2027 (Expected)</span>
+                <h4 class="text-xl font-bold mt-2">MSc in Software Convergence</h4>
+                <p class="text-gray-400 mt-1">Dongshin University, South Korea</p>
+            </div>
+            <div class="glass p-10 rounded-3xl text-left border border-white/5">
+                <span class="text-blue-500 text-xs font-bold uppercase">2018 - 2021</span>
+                <h4 class="text-xl font-bold mt-2">BSc in Computer Science</h4>
+                <p class="text-gray-400 mt-1">World University of Bangladesh</p>
+                <p class="text-blue-400 font-bold text-sm mt-2">CGPA: 3.51/4.00</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="py-24 px-6 container mx-auto">
+        <h2 class="text-4xl font-bold text-center mb-16">Projects</h2>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="glass rounded-3xl overflow-hidden hover:border-blue-500/50 transition duration-500 flex flex-col">
+                <img src="images/dongshinbuddy.jpg" class="w-full h-48 object-cover">
+                <div class="p-6 flex-grow">
+                    <h3 class="text-xl font-bold mb-2">DongshinBuddy</h3>
+                    <p class="text-gray-500 text-sm mb-6 line-clamp-2">AI Campus Guide for Dongshin University using Gemini & Groq.</p>
+                    <div class="flex gap-4">
+                        <a href="https://github.com/bayazidht/DongshinBuddy" target="_blank" class="text-xs font-bold text-blue-500 hover:underline uppercase tracking-widest"><i class="fab fa-github mr-1"></i> View Source</a>
+                        <a href="https://play.google.com/store/apps/details?id=com.bayazidht.dongshinbuddy" target="_blank" class="text-xs font-bold text-green-500 hover:underline uppercase tracking-widest"><i class="fab fa-google-play mr-1"></i> View App</a>
+                    </div>
+                </div>
+            </div>
+            <div class="glass rounded-3xl overflow-hidden hover:border-blue-500/50 transition duration-500 flex flex-col">
+                <img src="images/spend_mate.jpg" class="w-full h-48 object-cover">
+                <div class="p-6 flex-grow">
+                    <h3 class="text-xl font-bold mb-2">Spend Mate</h3>
+                    <p class="text-gray-500 text-sm mb-6 line-clamp-2">Finance Tracker with Firebase Auth & real-time tracking.</p>
+                    <div class="flex gap-4">
+                        <a href="https://github.com/bayazidht/spend_mate" target="_blank" class="text-xs font-bold text-blue-500 hover:underline uppercase tracking-widest"><i class="fab fa-github mr-1"></i> View Source</a>
+                        <a href="https://github.com/bayazidht/spend_mate/releases/tag/v1.0.0" target="_blank" class="text-xs font-bold text-green-100 hover:underline uppercase tracking-widest"><i class="fab fa-github mr-1"></i> View App</a>
+                    </div>
+                </div>
+            </div>
+            <div class="glass rounded-3xl overflow-hidden hover:border-blue-500/50 transition duration-500 flex flex-col">
+                <img src="images/sobkisubazar.jpg" class="w-full h-48 object-cover">
+                <div class="p-6 flex-grow">
+                    <h3 class="text-xl font-bold mb-2">Sobkisubazar</h3>
+                    <p class="text-gray-500 text-sm mb-6 line-clamp-2">Full-featured Flutter e-commerce app powered by REST APIs.</p>
+                    <div class="flex gap-4">
+                        <a href="https://apps.apple.com/ru/app/sobkisubazar/id6448658743" target="_blank" class="text-xs font-bold text-blue-200 hover:underline uppercase tracking-widest"><i class="fa-brands fa-apple mr-1"></i> View App</a>
+                        <a href="https://play.google.com/store/apps/details?id=com.app.sobkisubazar" target="_blank" class="text-xs font-bold text-green-500 hover:underline uppercase tracking-widest"><i class="fab fa-google-play mr-1"></i> View App</a>
+                    </div>
+                </div>
+            </div>
+            <div class="glass rounded-3xl overflow-hidden hover:border-blue-500/50 transition duration-500 flex flex-col">
+                <img src="images/newsflow.jpg" class="w-full h-48 object-cover">
+                <div class="p-6 flex-grow">
+                    <h3 class="text-xl font-bold mb-2">NewsFlow</h3>
+                    <p class="text-gray-500 text-sm mb-6 line-clamp-2">Modern, personalized news aggregator app built with RSS feeds APIs.</p>
+                    <div class="flex gap-4">
+                        <a href="https://github.com/bayazidht/NewsFlow" target="_blank" class="text-xs font-bold text-blue-500 hover:underline uppercase tracking-widest"><i class="fab fa-github mr-1"></i> View Source</a>
+                        <a href="https://github.com/bayazidht/NewsFlow/releases/tag/v1.0" target="_blank" class="text-xs font-bold text-green-100 hover:underline uppercase tracking-widest"><i class="fab fa-github mr-1"></i> View App</a>
+                    </div>
+                </div>
+            </div>
+            <div class="glass rounded-3xl overflow-hidden hover:border-blue-500/50 transition duration-500 flex flex-col">
+                <img src="images/blood_circle.jpg" class="w-full h-48 object-cover">
+                <div class="p-6 flex-grow">
+                    <h3 class="text-xl font-bold mb-2">Blood Circle</h3>
+                    <p class="text-gray-500 text-sm mb-6 line-clamp-2">A comprehensive donor management application built with firebase database.</p>
+                    <div class="flex gap-4">
+                        <a href="https://github.com/bayazidht/blood-circle" target="_blank" class="text-xs font-bold text-blue-500 hover:underline uppercase tracking-widest"><i class="fab fa-github mr-1"></i> View Source</a>
+                        <a href="https://play.google.com/store/apps/details?id=com.bloodcircle.app" target="_blank" class="text-xs font-bold text-green-500 hover:underline uppercase tracking-widest"><i class="fab fa-google-play mr-1"></i> View App</a>
+                    </div>
+                </div>
+            </div>
+            <div class="glass rounded-3xl overflow-hidden hover:border-blue-500/50 transition duration-500 flex flex-col">
+                <img src="images/weather.jpg" class="w-full h-48 object-cover">
+                <div class="p-6 flex-grow">
+                    <h3 class="text-xl font-bold mb-2">Weather</h3>
+                    <p class="text-gray-500 text-sm mb-6 line-clamp-2">A weather application integrating the OpenWeather API to deliver real-time forecasts.</p>
+                    <div class="flex gap-4">
+                        <a href="https://github.com/bayazidht/Weather" target="_blank" class="text-xs font-bold text-blue-500 hover:underline uppercase tracking-widest"><i class="fab fa-github mr-1"></i> View Source</a>
+                        <a href="https://github.com/bayazidht/Weather/releases/tag/Weather" target="_blank" class="text-xs font-bold text-green-100 hover:underline uppercase tracking-widest"><i class="fab fa-github mr-1"></i> View App</a>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="contact" class="py-20 container mx-auto px-6 max-w-4xl">
-        <h2 class="text-3xl font-bold text-center mb-12">Get In Touch</h2>
-        <div class="grid md:grid-cols-2 gap-10">
-            <div>
-                <p class="text-lg mb-6">Let's build something amazing together. Reach out via email or social media[cite: 2].</p>
-                <div class="space-y-4">
-                    <p><i class="fas fa-envelope text-blue-600 mr-3"></i> bayazidht@gmail.com [cite: 2]</p>
-                    <p><i class="fas fa-phone text-blue-600 mr-3"></i> +8201043853326 [cite: 2]</p>
-                    <p><i class="fas fa-map-marker-alt text-blue-600 mr-3"></i> Gwangju, South Korea [cite: 2]</p>
+    <section id="reviews" class="py-24 bg-slate-950/50 px-6">
+    <div class="container mx-auto">
+        <h2 class="text-4xl font-bold text-center mb-16">Global Client Feedback</h2>
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper mb-12">
+
+                <div class="swiper-slide h-auto">
+                    <div class="glass p-8 rounded-3xl border border-white/5 h-full">
+                        <div class="flex items-center gap-4 mb-6">
+                            <img src="https://fiverr-res.cloudinary.com/image/upload/f_auto,q_auto,t_profile_small/v1/profile/photos/2872241/original/Dan.jpg" class="w-12 h-12 rounded-full border-2 border-blue-500">
+                            <div>
+                                <h5 class="text-sm font-bold">Fortisq</h5>
+                                <p class="text-[11px] text-gray-400">Canada 🇨🇦</p>
+                                <div class="text-yellow-500 text-[10px] mt-1"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                            </div>
+                        </div>
+                        <p class="text-gray-400 text-sm italic leading-relaxed">"I am incredibly pleased with the Android app developed by Bayazid. I appreciate the prompt delivery and clear communication throughout the project. Thank you for your exceptional work!"</p>
+                    </div>
                 </div>
+
+                <div class="swiper-slide h-auto">
+                    <div class="glass p-8 rounded-3xl border border-white/5 h-full">
+                        <div class="flex items-center gap-4 mb-6">
+                            <img src="https://fiverr-res.cloudinary.com/image/upload/f_auto,q_auto,t_profile_small/v1/attachments/profile/photo/db49a4cea47a956db707508dd74e474c-1377859431667998633575/JPEG_20221109_135713_5469986413976950796.jpg" class="w-12 h-12 rounded-full border-2 border-blue-500">
+                            <div>
+                                <h5 class="text-sm font-bold">Michael Bei</h5>
+                                <p class="text-[11px] text-gray-400">Germany 🇩🇪</p>
+                                <div class="text-yellow-500 text-[10px] mt-1"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                            </div>
+                        </div>
+                        <p class="text-gray-400 text-sm italic leading-relaxed">"I am very satisfied with Mr. Hossain's work and will definitely use his services again. Excellent and fast work."</p>
+                    </div>
+                </div>
+
+                <div class="swiper-slide h-auto">
+                    <div class="glass p-8 rounded-3xl border border-white/5 h-full">
+                        <div class="flex items-center gap-4 mb-6">
+                            <img src="https://fiverr-res.cloudinary.com/image/upload/f_auto,q_auto,t_profile_small/v1/attachments/profile/photo/abb65c3e0daf43407c4943f47fe7f148-1541188862243/8fcc62e3-b1cf-44dc-87e6-44efe879980c.jpg" class="w-12 h-12 rounded-full border-2 border-blue-500">
+                            <div>
+                                <h5 class="text-sm font-bold">Richelle Silbaug</h5>
+                                <p class="text-[11px] text-gray-400">United States 🇺🇸</p>
+                                <div class="text-yellow-500 text-[10px] mt-1"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                            </div>
+                        </div>
+                        <p class="text-gray-400 text-sm italic leading-relaxed">"Quick delivery. Great App. Bayazid did an excellent job and was patience with me all through the creation process. Really recommends him!"</p>
+                    </div>
+                </div>
+
+                <div class="swiper-slide h-auto">
+                    <div class="glass p-8 rounded-3xl border border-white/5 h-full">
+                        <div class="flex items-center gap-4 mb-6">
+                            <img src="https://fiverr-dev-res.cloudinary.com/general_assets/flags/1f1e6-1f1fa.png" class="w-12 h-12 rounded-full border-2 border-blue-500">
+                            <div>
+                                <h5 class="text-sm font-bold">Simbiopp</h5>
+                                <p class="text-[11px] text-gray-400">Australia 🇦🇺</p>
+                                <div class="text-yellow-500 text-[10px] mt-1"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                            </div>
+                        </div>
+                        <p class="text-gray-400 text-sm italic leading-relaxed">"Exceptional work consistently demonstrates the ability to think innovatively while maintaining high-quality code."</p>
+                    </div>
+                </div>
+
+                <div class="swiper-slide h-auto">
+                    <div class="glass p-8 rounded-3xl border border-white/5 h-full">
+                        <div class="flex items-center gap-4 mb-6">
+                            <img src="https://fiverr-res.cloudinary.com/image/upload/f_auto,q_auto,t_profile_small/v1/attachments/profile/photo/4faeba700e8bf3616aa175cea0d038cf-1589447357222/621a7f85-4abc-420f-905c-c7c626cce6fc.jpeg" class="w-12 h-12 rounded-full border-2 border-blue-500">
+                            <div>
+                                <h5 class="text-sm font-bold">Izzato</h5>
+                                <p class="text-[11px] text-gray-400">Portugal 🇵🇹</p>
+                                <div class="text-yellow-500 text-[10px] mt-1"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                            </div>
+                        </div>
+                        <p class="text-gray-400 text-sm italic leading-relaxed">"I can say he was very professional, patient and had a lot of experience. He always responded on time. I highly recommend."</p>
+                    </div>
+                </div>
+
+                <div class="swiper-slide h-auto">
+                    <div class="glass p-8 rounded-3xl border border-white/5 h-full">
+                        <div class="flex items-center gap-4 mb-6">
+                            <img src="https://fiverr-res.cloudinary.com/image/upload/f_auto,q_auto,t_profile_small/v1/attachments/profile/photo/2e587919dcfd52368a53d6d480a0ab89-1663611941500/b621ffe8-b762-49bb-9b76-fd878bf33bf0.jpg" class="w-12 h-12 rounded-full border-2 border-blue-500">
+                            <div>
+                                <h5 class="text-sm font-bold">Azhar Niaz</h5>
+                                <p class="text-[11px] text-gray-400">Pakistan 🇵🇰</p>
+                                <div class="text-yellow-500 text-[10px] mt-1"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                            </div>
+                        </div>
+                        <p class="text-gray-400 text-sm italic leading-relaxed">"Your exceptional professionalism and unwavering commitment have consistently impressed me. I am always happy with the excellent results he delivers."</p>
+                    </div>
+                </div>
+
+                <div class="swiper-slide h-auto">
+                    <div class="glass p-8 rounded-3xl border border-white/5 h-full">
+                        <div class="flex items-center gap-4 mb-6">
+                            <img src="https://fiverr-res.cloudinary.com/image/upload/f_auto,q_auto,t_profile_small/v1/attachments/profile/photo/3b24ec411d59e90a69edda41195db50e-1718625814028/4e17a0fa-1f17-40a8-8c4c-1ae9c4e30303.jpg" class="w-12 h-12 rounded-full border-2 border-blue-500">
+                            <div>
+                                <h5 class="text-sm font-bold">Ronan Barbian</h5>
+                                <p class="text-[11px] text-gray-400">Egypt 🇪🇬</p>
+                                <div class="text-yellow-500 text-[10px] mt-1"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                            </div>
+                        </div>
+                        <p class="text-gray-400 text-sm italic leading-relaxed">"This guy is very helpful and always reply fast for all questions, the app is fast and clear."</p>
+                    </div>
+                </div>
+
+                <div class="swiper-slide h-auto">
+                    <div class="glass p-8 rounded-3xl border border-white/5 h-full">
+                        <div class="flex items-center gap-4 mb-6">
+                            <img src="https://fiverr-dev-res.cloudinary.com/general_assets/flags/1f1ec-1f1f7.png" class="w-12 h-12 rounded-full border-2 border-blue-500">
+                            <div>
+                                <h5 class="text-sm font-bold">Erius Rama</h5>
+                                <p class="text-[11px] text-gray-400">Greece 🇬🇷</p>
+                                <div class="text-yellow-500 text-[10px] mt-1"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                            </div>
+                        </div>
+                        <p class="text-gray-400 text-sm italic leading-relaxed">"This guy is extremely skilled he can do whatever you want. He guy will never let your project incomplete he cares and for the small problem. I had a good experience and thank you for this!"</p>
+                    </div>
+                </div>
+
             </div>
-            <form class="space-y-4">
-                <input type="text" placeholder="Name" class="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-2 focus:ring-blue-600 outline-none">
-                <textarea placeholder="Your Message" class="w-full p-3 bg-gray-100 border-none rounded-lg h-32 focus:ring-2 focus:ring-blue-600 outline-none"></textarea>
-                <button class="w-full bg-blue-700 text-white py-3 rounded-lg font-bold hover:bg-blue-800 transition shadow-lg">Send Message</button>
-            </form>
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+</section>
+
+
+    <section id="contact" class="py-24 px-6 container mx-auto">
+        <div class="max-w-5xl mx-auto glass rounded-[3rem] p-12 relative overflow-hidden">
+            <div class="grid md:grid-cols-2 gap-16 relative z-10">
+                <div class="text-left">
+                    <h2 class="text-5xl font-bold mb-8">Let's Build Something Big</h2>
+                    <p class="text-gray-400 mb-10 leading-relaxed">Available for new freelance projects and full-time remote opportunities.</p>
+                    <div class="space-y-6">
+                        <div class="flex items-center gap-4"><i class="fas fa-envelope text-blue-500 w-6"></i> bayazidht@gmail.com </div>
+                        <div class="flex items-center gap-4"><i class="fas fa-phone text-blue-500 w-6"></i> +8201043853326 </div>
+                    </div>
+                </div>
+                <form class="space-y-4">
+                    <input type="text" placeholder="Full Name" class="w-full bg-white/5 border border-white/10 p-4 rounded-xl outline-none focus:border-blue-500 transition">
+                    <input type="email" placeholder="Email Address" class="w-full bg-white/5 border border-white/10 p-4 rounded-xl outline-none focus:border-blue-500 transition">
+                    <textarea placeholder="Tell me about your project" class="w-full bg-white/5 border border-white/10 p-4 rounded-xl h-40 outline-none focus:border-blue-500 transition"></textarea>
+                    <button class="w-full bg-blue-600 hover:bg-blue-700 py-4 rounded-xl font-bold transition shadow-xl shadow-blue-600/20">Send Inquiry</button>
+                </form>
+            </div>
         </div>
     </section>
-
-    <footer class="bg-gray-900 text-white py-12">
-        <div class="container mx-auto px-6 text-center">
-            <div class="flex justify-center space-x-8 mb-8">
-                <a href="https://linkedin.com/in/bayazidht" class="text-3xl hover:text-blue-400 transition"><i class="fab fa-linkedin"></i></a>
-                <a href="https://github.com/bayazidht" class="text-3xl hover:text-gray-400 transition"><i class="fab fa-github"></i></a>
-                <a href="https://fiverr.com/bayazidht" class="text-3xl hover:text-green-400 transition"><i class="fas fa-briefcase"></i></a>
-            </div>
-            <p class="opacity-50 text-sm">&copy; 2026 Syed Bayazid Hossain. All rights reserved.</p>
+     <footer class="py-12 border-t border-white/5 text-center text-gray-500 text-sm">
+        <div class="flex justify-center gap-8 mb-6 text-xl">
+            <a href="mailto:bayazidht@gmail.com" class="hover:text-red-500 transition"><i class="fas fa-envelope"></i></a>
+            <a href="https://github.com/bayazidht" class="hover:text-blue-500 transition"><i class="fab fa-github"></i></a>
+            <a href="https://linkedin.com/in/bayazidht" class="hover:text-blue-400 transition"><i class="fab fa-linkedin"></i></a>
+            <a href="https://fiverr.com/bayazidht" class="hover:text-green-400 transition"><i class="fas fa-briefcase"></i></a>
+            <a href="https://play.google.com/store/apps/dev?id=5178474569020388732" class="hover:text-green-600 transition"><i class="fab fa-google-play"></i></a>
         </div>
+        <p>&copy; 2026 Syed Bayazid Hossain. All rights reserved.</p>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        // Swiper
+        new Swiper(".mySwiper", {
+            slidesPerView: 1, spaceBetween: 30,
+            autoplay: { delay: 3000 },
+            pagination: { el: ".swiper-pagination", clickable: true },
+            breakpoints: { 768: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } }
+        });
+
+        // Navigation Drawer Logic
+        const drawer = document.getElementById('drawer');
+        const overlay = document.getElementById('drawer-overlay');
+        const openBtn = document.getElementById('open-drawer');
+        const closeBtn = document.getElementById('close-drawer');
+
+        const toggleDrawer = () => {
+            drawer.classList.toggle('active');
+            overlay.classList.toggle('active');
+        };
+
+        openBtn.onclick = toggleDrawer;
+        closeBtn.onclick = toggleDrawer;
+        overlay.onclick = toggleDrawer;
+        document.querySelectorAll('.drawer-link').forEach(l => l.onclick = toggleDrawer);
+    </script>
 </body>
 </html>
